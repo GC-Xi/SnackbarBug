@@ -23,9 +23,10 @@ class SnackbarActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_snackbar)
 
-        snackbar = Snackbar.make(rootLayout, "Hello Snackbar", Snackbar.LENGTH_INDEFINITE)
-
         toggleSnackbarBtn.setOnClickListener {
+            if (!::snackbar.isInitialized)
+                snackbar = Snackbar.make(rootLayout, "Hello Snackbar", Snackbar.LENGTH_INDEFINITE)
+
             if (snackbar.isShown)
                 snackbar.dismiss()
             else
