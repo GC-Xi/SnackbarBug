@@ -7,7 +7,7 @@
 4. Notice that the Activity is not garbage collected because snackbar has a reference to it
 
 ## Cause of the bug
-`AccessibilityManagerCompat.addTouchExplorationStateChangeListener()` is called in the constructor of `SnackbarBaseLayout` while `AccessibilityManagerCompat.removeTouchExplorationStateChangeListener()` is called in `SnackbarBaseLayout.onDetachedFromWindow()`. So `removeTouchExplorationStateChangeListener()` is never called if `Snackbar.show()` is never called. Therefore, `touchExplorationStateChangeListener` is added to `AccessibilityManager` without being removed.
+`addTouchExplorationStateChangeListener()` is called in the constructor of `SnackbarBaseLayout` while `removeTouchExplorationStateChangeListener()` is called in `SnackbarBaseLayout.onDetachedFromWindow()`. And `SnackbarBaseLayout` is not attached to window until `Snackbar.show()` is called. So `removeTouchExplorationStateChangeListener()` is never called if `Snackbar.show()` is never called. Therefore, `touchExplorationStateChangeListener` is added to `AccessibilityManager` without being removed.
 
 ## Solution 1
 Update to AndroidX and use `com.google.android.material.snackbar.Snackbar` instead.
